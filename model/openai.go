@@ -98,12 +98,25 @@ type GetUserContent interface {
 func (r OpenAIChatCompletionRequest) GetUserContent() []string {
 	var userContent []string
 	if config.AllDialogRecordEnable == 1 {
-		for _, msg := range r.Messages {
-			if msg.Role == "user" {
+		foundUser := false
+		foundAssistantOrSystem := false
+		for i := len(r.Messages) - 1; i >= 0; i-- {
+			msg := r.Messages[i]
+			if !foundUser && msg.Role == "user" {
 				switch contentObj := msg.Content.(type) {
 				case string:
 					userContent = append(userContent, contentObj)
+					foundUser = true
 				}
+			} else if !foundAssistantOrSystem && (msg.Role == "assistant" || msg.Role == "system") {
+				switch contentObj := msg.Content.(type) {
+				case string:
+					userContent = append(userContent, contentObj)
+					foundAssistantOrSystem = true
+				}
+			}
+			if foundUser && foundAssistantOrSystem {
+				break
 			}
 		}
 	} else {
