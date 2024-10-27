@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   gpt-content-audit:
-    image: deanxv/gpt-content-audit:latest
+    image: gkingt/gpt-content-audit:latest
     container_name: gpt-content-audit
     restart: always
     ports:
