@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"gpt-content-audit/common"
 	"gpt-content-audit/common/config"
 	logger "gpt-content-audit/common/loggger"
@@ -12,6 +11,8 @@ import (
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 var moderationUrl = fmt.Sprintf("%s/v1/moderations", config.OpenaiModerationBaseUrl)

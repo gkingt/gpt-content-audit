@@ -1,6 +1,9 @@
 package model
 
-import "gpt-content-audit/common/config"
+import (
+	"gpt-content-audit/common/config"
+	"strings"
+)
 
 type OpenAIChatCompletionRequest struct {
 	Model    string              `json:"model"`
@@ -130,7 +133,13 @@ func (r OpenAIChatCompletionRequest) GetUserContent() []string {
 			}
 		}
 	}
-
+	// 在函数返回前处理 userContent
+	if len(userContent) > 0 {
+		// 使用换行符连接所有内容
+		joinedContent := strings.Join(userContent, "\n")
+		// 返回包含单个拼接字符串的切片
+		return []string{joinedContent}
+	}
 	return userContent
 }
 
